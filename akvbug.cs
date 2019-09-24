@@ -30,7 +30,7 @@ namespace functionapp_keyvaultreference
         private static string GetSecret()
         {
             KeyVaultClient keyVaultClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(new AzureServiceTokenProvider().KeyVaultTokenCallback));
-            return keyVaultClient.GetSecretAsync("https://vault9486.vault.azure.net/secrets/bug/c198ab77b18d48f0b7f72cb51476899a").Result.Value;
+            return keyVaultClient.GetSecretAsync(Environment.GetEnvironmentVariable("secretUri")).Result.Value;
         }
     }
 }
