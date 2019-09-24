@@ -61,5 +61,8 @@ az functionapp config appsettings set --name $winfuncname --resource-group $wind
 windowsoutput=$(func azure functionapp publish $winfuncname --dotnet-cli-params -- '-r win-x64')
 
 # Func App details
-echo $linuxoutput
-echo $windowsoutput
+echo "Function Should output 'Hello World'"
+echo "Windows Function:"
+curl $(echo $windowsoutput | grep 'Invoke url:' | sed "s/Invoke url: //g") 
+echo "Linux Function:"
+curl $(echo $linuxoutput | grep 'Invoke url:' | sed "s/Invoke url: //g") 
