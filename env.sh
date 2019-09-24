@@ -33,6 +33,7 @@ az keyvault set-policy --name $vault --object-id $(echo $linuxfuncmsi | jq '.pri
 
 # Update the Linux Func app settings with a pointer to the secret in AKV
 az functionapp config appsettings set --name $linuxfuncname --resource-group $linuxgroupname --settings "bug=@Microsoft.KeyVault(SecretUri=$(echo $secret | jq '.id' | sed "s/\"//g"))"
+az functionapp config appsettings set --name $linuxfuncname --resource-group $linuxgroupname --settings "secretUri=$secret"
 
 # Deploy function
 linuxoutput=$(func azure functionapp publish $linuxfuncname --dotnet-cli-params -- '-r linux-x64')
@@ -56,6 +57,7 @@ az keyvault set-policy --name $vault --object-id $(echo $winfunccmsi | jq '.prin
 
 # Update the Windows Func app settings with a pointer to the secret in AKV
 az functionapp config appsettings set --name $winfuncname --resource-group $windowsgroupname --settings "bug=@Microsoft.KeyVault(SecretUri=$(echo $secret | jq '.id' | sed "s/\"//g"))"
+az functionapp config appsettings set --name $winfuncname --resource-group $windowsgroupname --settings "secretUri=$secret"
 
 # Deploy function
 windowsoutput=$(func azure functionapp publish $winfuncname --dotnet-cli-params -- '-r win-x64')
